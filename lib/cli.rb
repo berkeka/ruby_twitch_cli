@@ -28,11 +28,10 @@ module Twitch
           else
             # Either no access token is present or it is expired
             puts "Access token required."
-            http_service = HttpService.new
             Thread.new {
               api_service.get_authorization
             }
-            code = http_service.get_code
+            code = HttpService.get_code
             if(code)
               api_service.code = code
               api_service.get_token
