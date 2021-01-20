@@ -12,8 +12,10 @@ class HttpService
     code = nil
     loop do
       session = @server.accept
-      raw_response = session.gets
       # Raw response can contain multiple lines of GET requests
+      raw_response = session.gets
+      # If raw response is nil we return
+      return nil unless raw_response
       line = raw_response.split("\n").first
       # Line looks like GET /?code=CODE_HERE&scope=viewing_activity_read HTTP/1.1
       # We need to get rid of some parts 

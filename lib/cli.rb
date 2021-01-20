@@ -23,11 +23,23 @@ module Twitch
 
         def call(input: nil, **)
           api_service = ApiService.new
-          if(api_service.access_token && api_service.check_auth)
+          if(api_service.access_token && api_service.is_authorized?)
             puts "App is already authorized"
           else
             # Either no access token is present or it is expired
             puts "Access token required."
+            http_service = HttpService.new
+            Thread.new {
+              api_service.get_authorization
+            }
+            code = http_service.get_code
+            if(code)
+              api_service.code = code
+              api_service.get_token
+              puts "Authorization succesful. You can close the browser"
+            else
+              puts "An error occurred."
+            end
           end
         end
       end

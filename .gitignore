@@ -13,6 +13,7 @@ secrets.json
 /test/tmp/
 /test/version_tmp/
 /tmp/
+*.lock
 
 # We all hate Mac
 .DS_Store
